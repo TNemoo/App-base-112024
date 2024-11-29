@@ -2,8 +2,10 @@ package com.svl.servicebase.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @Entity
 @Table(name = "phone_number")
 public class PhoneNumber {
@@ -11,8 +13,8 @@ public class PhoneNumber {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "phone_number", length = 17, nullable = false, unique = true)
-    private String phoneNumber;
+    @Column(name = "number", length = 17, nullable = false, unique = true)
+    private String number;
 
     @Column(name = "priority")
     private boolean priority = false;
@@ -24,4 +26,8 @@ public class PhoneNumber {
     @JoinColumn(name = "person_uuid", referencedColumnName = "uuid")
     private Person person;
 
+    public PhoneNumber(String number) {
+        this.number = number;
+        priority = true;
+    }
 }
