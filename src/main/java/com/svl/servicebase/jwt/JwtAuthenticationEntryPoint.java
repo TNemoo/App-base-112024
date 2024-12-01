@@ -25,7 +25,6 @@ public final class JwtAuthenticationEntryPoint implements AuthenticationEntryPoi
         String body = new ObjectMapper().writeValueAsString(Collections.singletonMap("error", "Unauthorized Error"));
         response.getOutputStream().println(body);
     }
-
 }
 
 

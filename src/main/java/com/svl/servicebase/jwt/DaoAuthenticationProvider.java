@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class JwtUserDetailsService implements UserDetailsService {
+public class DaoAuthenticationProvider implements UserDetailsService {
 
     private final PersonCredentialsRepository personCredentialsRepository;
 
@@ -23,7 +23,7 @@ public class JwtUserDetailsService implements UserDetailsService {
         PersonCredentials person = personCredentialsRepository.findByLogin(login)
                 .orElseThrow(() -> new SecurityBadRequestException("User with login:" + login + "not found"));
 
-        JwtPersonDetails jwtUser = new JwtPersonDetails(person);
+        JwtPerson jwtUser = new JwtPerson(person);
 
         log.info("IN loadUserByUsername -  loaded login: {} successfully loaded", login);
         return jwtUser;

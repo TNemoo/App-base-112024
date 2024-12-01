@@ -8,12 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-public class JwtPersonDetails implements UserDetails {
+public class JwtPerson implements UserDetails {
 
     private final PersonCredentials personCredentials;
 
     @Autowired
-    public JwtPersonDetails(PersonCredentials personCredentials) {
+    public JwtPerson(PersonCredentials personCredentials) {
         this.personCredentials = personCredentials;
     }
 
