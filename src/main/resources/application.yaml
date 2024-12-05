@@ -1,0 +1,45 @@
+server:
+  port: ${SERVER_PORT:80}
+
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE}
+  application:
+    name: service-base
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/service-base-db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+
+  main:
+    allow-bean-definition-overriding: true
+
+  security:
+    jwt:
+      secret: your-secret-key-that-is-long-enough-for-security
+      expired: 3600000
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      jakarta.persistence.sharedCache.mode: UNSPECIFIED
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        cache:
+          use_second_level_cache: true
+          use_query_cache: true
+        region:
+          factory_class: org.redisson.hibernate.RedissonRegionFactory
+          redisson.config: "classpath:redisson.yaml" # настроить через redisson.yaml
+        # redisson.client: "#{redissonClient}" # если хотите настроить через бин
+
+logging:
+  level:
+    org.redisson: DEBUG
+    org.hibernate: DEBUG

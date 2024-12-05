@@ -2,6 +2,8 @@ package com.svl.servicebase.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "person")
 public class Person {
 
     @Id
@@ -32,12 +35,11 @@ public class Person {
     @OneToMany(mappedBy = "person")
     private List<Email> email = new ArrayList<>();
 
-    @Embedded
-    @Column(name = "residential_address")
+    @ManyToOne
+    @JoinColumn(name = "address_uuid", referencedColumnName = "uuid")
     private Address residentialAddress;
 
-    @Embedded
-    @Column(unique = true)
+    @OneToOne(mappedBy = "person")
     private Passport passport;
 
     @Column(updatable = false)

@@ -3,9 +3,16 @@ package com.svl.servicebase.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+import java.util.Set;
+
 @Data
-@Embeddable
+@Entity
 public class Address {
+
+    @Id
+    @Column(name = "uuid")
+    private String uuid;
 
     @Column(nullable = false, length = 30, updatable = false)
     private String street;
@@ -18,4 +25,7 @@ public class Address {
 
     @Column(nullable = false, length = 20, updatable = false)
     private String country;
+
+    @OneToMany(mappedBy = "residentialAddress")
+    private Set<Person> people;
 }

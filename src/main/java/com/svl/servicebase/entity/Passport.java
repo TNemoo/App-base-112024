@@ -1,19 +1,36 @@
 package com.svl.servicebase.entity;
 
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDate;
 
-@Embeddable
+
+@Data
+@Entity
 public class Passport {
 
-    private String firstname;
-    private String middleName;
-    private String surname;
+    @Id
+    private String uuid;
 
+    @Column
     private String series;
+
+    @Column
     private Integer number;
+
+    @Column
     private LocalDate dateOfBerth;
+
+    @ManyToOne
+    @JoinColumn(name = "birth_address_uuid", referencedColumnName = "uuid")
     private Address placeOfBirth;
+
+    @ManyToOne
+    @JoinColumn(name = "registration_address_uuid", referencedColumnName = "uuid")
     private Address placeOfRegistration;
+
+    @OneToOne
+    @JoinColumn(name = "person_uuid", referencedColumnName = "uuid")
+    private Person person;
 }

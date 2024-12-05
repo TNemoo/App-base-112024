@@ -4,6 +4,7 @@ import com.svl.servicebase.entity.PersonCredentials;
 import com.svl.servicebase.exception.SecurityBadRequestException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,17 @@ public class JwtTokenProvider {
     private String secret;
     @Value("${spring.security.jwt.expired}")
     private long validityInMilliseconds;
-    private final Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+
+    private Key key;
 
     private final UserDetailsService userDetailsService;
+
+    @PostConstruct
+    public void init() throws Exception {
+        if (secret.length() < 48)
+            throw new Exception("the secret should be 48 symbols");
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
 
     @Autowired
     public JwtTokenProvider(UserDetailsService userDetailsService) {
